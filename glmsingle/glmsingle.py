@@ -460,6 +460,9 @@ class GLM_single():
         if not isinstance(params['extra_regressors'], list):
             params['extra_regressors'] = [params['extra_regressors']]
 
+        if params['extra_regressors'][0] is False:
+            params['extra_regressors'] = [False for r in range(numruns)]
+
         if type(params['maxpolydeg']) is int:
             params['maxpolydeg'] = np.tile(
                 params['maxpolydeg'], numruns
@@ -705,17 +708,18 @@ class GLM_single():
 
         print('*** FITTING DIAGNOSTIC RUN-WISE FIR MODEL ***')
 
-        opt0 = {
-            'extra_regressors': params['extra_regressors'],
-            'maxpolydeg': params['maxpolydeg'],
-            'wantpercentbold': params['wantpercentbold'],
-            'suppressoutput': 1
-        }
-
         firR2 = []
         firtcs= []
         design0 = [np.sum(run, axis=1, keepdims=True, dtype=np.int64) for run in self.design]
         for p in range(len(self.data)):
+            # design0[p]/data[p] make this a single-run call, so
+            # glm_estimatemodel always reads opt[...][0] -- slice per p here.
+            opt0 = {
+                'extra_regressors': [params['extra_regressors'][p]],
+                'maxpolydeg': [params['maxpolydeg'][p]],
+                'wantpercentbold': params['wantpercentbold'],
+                'suppressoutput': 1
+            }
             results0 = glm_estimatemodel(
                 design0[p],
                 data[p],
