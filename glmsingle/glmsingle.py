@@ -459,7 +459,7 @@ class GLM_single():
         # deal with length issues and other miscellaneous things
         if not isinstance(params['extra_regressors'], list):
             params['extra_regressors'] = [params['extra_regressors']]
-
+        
         if params['extra_regressors'][0] is False:
             params['extra_regressors'] = [False for r in range(numruns)]
 
@@ -712,8 +712,7 @@ class GLM_single():
         firtcs= []
         design0 = [np.sum(run, axis=1, keepdims=True, dtype=np.int64) for run in self.design]
         for p in range(len(self.data)):
-            # design0[p]/data[p] make this a single-run call, so
-            # glm_estimatemodel always reads opt[...][0] -- slice per p here.
+            # get run-specific extra regressors only
             opt0 = {
                 'extra_regressors': [params['extra_regressors'][p]],
                 'maxpolydeg': [params['maxpolydeg'][p]],
