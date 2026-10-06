@@ -492,6 +492,10 @@ class GLM_single():
 
         if figuredir is not None:
             wantfig = 1  # if outputdir is not None, we want figures
+            if os.path.exists(figuredir):
+                import shutil
+                shutil.rmtree(figuredir)
+            os.makedirs(figuredir)
         else:
             wantfig = 0
 
@@ -506,18 +510,6 @@ class GLM_single():
             os.makedirs(outputdir)
         else:
             os.makedirs(outputdir)
-
-        # deal with figure directory
-        if figuredir is None:
-            cwd = os.getcwd()
-            figuredir = os.path.join(cwd, 'GLMestimatesingletrialfigures')
-
-        if os.path.exists(figuredir):
-            import shutil
-            shutil.rmtree(figuredir)
-            os.makedirs(figuredir)
-        else:
-            os.makedirs(figuredir)
 
         if np.any(params['wantfileoutputs']):
             errm = 'specify an <outputdir> in order to get file outputs'
