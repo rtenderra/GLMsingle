@@ -614,10 +614,10 @@ class GLM_single():
             stimix.append(np.asarray(stimorder)[np.asarray(run_validcolumns)])
 
         # Calculate number of trials for each condition
-        condcounts = [np.sum(np.asarray(stimorder) == p) for p in range(0, numcond )]
+        condcounts = [int(np.sum(np.asarray(stimorder) == p)) for p in range(0, numcond )]
 
         # Calculate for each condition, how many runs it shows up in
-        condinruns = [np.sum([(p in run) for run in stimix]) for p in range(0, numcond)]
+        condinruns = [int(np.sum([(p in run) for run in stimix])) for p in range(0, numcond)]
 
         # Calculate buffer at the end of each run
         endbuffers = []
