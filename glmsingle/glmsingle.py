@@ -624,7 +624,7 @@ class GLM_single():
         for run in self.design:
             temp = np.where(np.sum(run, axis=1))[0]  # Indices of when trials happen
             temp = run.shape[0] - temp[-1] - 1  # Number of volumes AFTER last trial onset
-            endbuffers.append(temp * tr)  # Number of seconds AFTER last trial onset for which we have data
+            endbuffers.append(float(temp * tr))  # Number of seconds AFTER last trial onset for which we have data
 
         # Diagnostics
         print('*** DIAGNOSTICS ***:')
